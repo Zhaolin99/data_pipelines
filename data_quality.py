@@ -2,7 +2,6 @@ from airflow.hooks.postgres_hook import PostgresHook
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
-
 class DataQualityOperator(BaseOperator):
 
 
@@ -11,13 +10,13 @@ class DataQualityOperator(BaseOperator):
 
    @apply_defaults
    def __init__(self,
-               postgres_conn_id='',
+               redshift_conn_id='',
                tests=[],
                *args, **kwargs):
 
 
        super(DataQualityOperator, self).__init__(*args, **kwargs)
-       self.postgres_conn_id = postgres_conn_id
+       self.postgres_conn_id = redshift_conn_id
        self.tests = tests
 
 
