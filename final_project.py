@@ -34,7 +34,8 @@ with DAG('dag-zh',
             aws_credentials_id='aws_credentials',
             table='staging_events',
             s3_bucket='s3://airflow-1-zh/log_data',
-            json_path='s3://airflow-1-zh/log_json_path.json'
+            json_path='s3://airflow-1-zh/log_json_path.json',
+            region = 'us-east-1'
         )
         stage_songs_to_redshift = StageToRedshiftOperator(
             task_id='Stage_songs',
@@ -42,7 +43,8 @@ with DAG('dag-zh',
             aws_credentials_id='aws_credentials',
             table='staging_songs',
             s3_bucket='s3://airflow-1-zh/song_data',
-            json_path='s3://airflow-1-zh/song_json_path.json'
+            json_path='s3://airflow-1-zh/song_json_path.json',
+            region = 'us-east-1'
         )
 
 
@@ -90,7 +92,7 @@ with DAG('dag-zh',
         run_quality_checks = DataQualityOperator(
             task_id='Run_data_quality_checks',
             redshift_conn_id="redshift",
-            tables=["users", "songs",  "artists", "time"]
+            tables=['staging_events', 'staging_songs',"users", "songs",  "artists", "time"]
         )
 
         end_operator = DummyOperator(task_id='Stop_execution')
