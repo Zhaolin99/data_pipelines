@@ -16,7 +16,7 @@ class DataQualityOperator(BaseOperator):
 
 
        super(DataQualityOperator, self).__init__(*args, **kwargs)
-       self.postgres_conn_id = redshift_conn_id
+       self.redshift_conn_id = redshift_conn_id
        self.tests = tests
 
 
