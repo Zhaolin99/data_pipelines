@@ -37,3 +37,4 @@ class DataQualityOperator(BaseOperator):
           
            self.log.info(f"Data quality check on table {table} passed with {num_records} records")
 
+
