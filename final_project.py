@@ -33,8 +33,8 @@ with DAG('dag-zh',
             redshift_conn_id='redshift',
             aws_credentials_id='aws_credentials',
             table='staging_events',
-            s3_bucket='s3://airflow-1-zh/log_data',
-            json_path='s3://airflow-1-zh/log_json_path.json',
+            s3_bucket='s3://udacity-dend/log_data',
+            json_path='s3://udacity-dend/log_json_path.json',
             region = 'us-east-1'
         )
         stage_songs_to_redshift = StageToRedshiftOperator(
@@ -42,8 +42,8 @@ with DAG('dag-zh',
             redshift_conn_id='redshift',
             aws_credentials_id='aws_credentials',
             table='staging_songs',
-            s3_bucket='s3://airflow-1-zh/song_data',
-            json_path='s3://airflow-1-zh/song_json_path.json',
+            s3_bucket='s3://udacity-dend/song_data',
+            json_path='auto',
             region = 'us-east-1'
         )
 
