@@ -34,7 +34,7 @@ with DAG('dag-zh',
             aws_credentials_id='aws_credentials',
             table='staging_events',
             s3_bucket='s3://udacity-dend/log_data',
-            json_path='s3://udacity-dend/log_json_path.json',
+            json_path='auto',
             region = 'us-east-1'
         )
         stage_songs_to_redshift = StageToRedshiftOperator(
