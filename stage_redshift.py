@@ -25,6 +25,7 @@ class StageToRedshiftOperator(BaseOperator):
                 s3_bucket='',
                 json_path='',
                 region='',
+                truncate=False,
                 *args,**kwargs):
         super(StageToRedshiftOperator, self).__init__(*args,**kwargs)
         self.redshift_conn_id = redshift_conn_id
@@ -33,6 +34,7 @@ class StageToRedshiftOperator(BaseOperator):
         self.s3_bucket = s3_bucket
         self.json_path = json_path
         self.region = region
+        self.truncate = truncate
 
     def execute(self, context):
         self.log.info('StageToRedshiftOperator is executing')
@@ -40,12 +42,15 @@ class StageToRedshiftOperator(BaseOperator):
         aws_hook = AwsHook(self.aws_credentials_id)
         credentials = aws_hook.get_credentials()
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
+
+        if self.truncate:
+            self.log.info(f'Truncate the Redshift table {self.table}')
+            redshift.run(f'TRUNCATE {self.table}')
         
-        s3_path = f's3://{self.s3_bucket}'
-        
+
         formatted_sql = StageToRedshiftOperator.copy_sql.format(
             self.table,
-            s3_path,
+            self.s3_bucket,
             credentials.access_key,
             credentials.secret_key,
             self.json_path,
@@ -53,3 +58,4 @@ class StageToRedshiftOperator(BaseOperator):
         )
         
         redshift.run(formatted_sql)
+
